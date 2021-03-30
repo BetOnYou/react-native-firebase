@@ -63,6 +63,7 @@
   NSMutableDictionary *userError = [@{
     @"code": @"unknown",
     @"message": error.localizedDescription,
+    @"nativeErrorCode": @"on_ad_show"
   } mutableCopy];
   [RNFBAdMobRewardedDelegate sendRewardedEvent:ADMOB_EVENT_ERROR requestId:[(RNFBGADRewarded *) ad requestId] adUnitId:ad.adUnitID error:userError data:nil];
 }
