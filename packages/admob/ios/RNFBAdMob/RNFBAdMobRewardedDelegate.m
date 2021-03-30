@@ -65,6 +65,9 @@
     @"message": error.localizedDescription,
     @"nativeErrorCode": @"on_ad_show"
   } mutableCopy];
+  NSLog(@"Presentation Error GADRewardedAd: %@" , error.localizedDescription);
+  GADResponseInfo *responseInfo = error.userInfo[GADErrorUserInfoKeyResponseInfo];
+  NSLog(@"\n%@", responseInfo);
   [RNFBAdMobRewardedDelegate sendRewardedEvent:ADMOB_EVENT_ERROR requestId:[(RNFBGADRewarded *) ad requestId] adUnitId:ad.adUnitID error:userError data:nil];
 }
 
@@ -74,4 +77,3 @@
 }
 
 @end
-
