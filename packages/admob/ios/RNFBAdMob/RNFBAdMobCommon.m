@@ -106,6 +106,9 @@ NSString *const ADMOB_EVENT_REWARDED_EARNED_REWARD = @"rewarded_earned_reward";
     } else if (error.code == kGADErrorNoFill) {
         code = @"no-fill";
         message = @"The ad request was successful, but no ad was returned due to lack of ad inventory.";
+    } else if (error.code == kGADErrorMediationNoFill) {
+        code = @"no-fill";
+        message = @"No ad to show from all configured ad networks.";
     } else if (error.code == kGADErrorNetworkError) {
         code = @"network-error";
         message = @"The ad request was unsuccessful due to network connectivity.";
@@ -115,8 +118,10 @@ NSString *const ADMOB_EVENT_REWARDED_EARNED_REWARD = @"rewarded_earned_reward";
     }
 
     return @{
-            @"code": code,
-            @"message": message,
+        @"code": code,
+        @"message": message,
+        @"nativeErrorCode": [NSString stringWithFormat:@"%li", error.code],
+        @"nativeErrorMessage": error.localizedDescription
     };
 }
 
