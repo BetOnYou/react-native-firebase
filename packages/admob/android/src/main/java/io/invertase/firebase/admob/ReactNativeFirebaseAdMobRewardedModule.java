@@ -12,6 +12,8 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
+import com.google.android.gms.ads.AdError;
+import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.google.android.gms.ads.rewarded.RewardItem;
 import com.google.android.gms.ads.rewarded.RewardedAd;
@@ -74,11 +76,13 @@ public class ReactNativeFirebaseAdMobRewardedModule extends ReactNativeFirebaseM
         }
 
         @Override
-        public void onRewardedAdFailedToLoad(int errorCode) {
+        public void onRewardedAdFailedToLoad(@NonNull LoadAdError loadAdError) {
           WritableMap error = Arguments.createMap();
-          String[] codeAndMessage = getCodeAndMessageFromAdErrorCode(errorCode);
+          String[] codeAndMessage = getCodeAndMessageFromAdErrorCode(loadAdError.getCode());
           error.putString("code", codeAndMessage[0]);
           error.putString("message", codeAndMessage[1]);
+          error.putString("nativeErrorCode", Integer.toString(loadAdError.getCode()));
+          error.putString("nativeErrorMessage", loadAdError.toString());
           sendRewardedEvent(AD_ERROR, requestId, adUnitId, error, null);
         }
       };
@@ -141,11 +145,13 @@ public class ReactNativeFirebaseAdMobRewardedModule extends ReactNativeFirebaseM
         }
 
         @Override
-        public void onRewardedAdFailedToShow(int errorCode) {
+        public void onRewardedAdFailedToShow(AdError adError) {
           WritableMap error = Arguments.createMap();
-          String[] codeAndMessage = getCodeAndMessageFromAdErrorCode(errorCode);
+          String[] codeAndMessage = getCodeAndMessageFromAdErrorCode(adError.getCode());
           error.putString("code", codeAndMessage[0]);
           error.putString("message", codeAndMessage[1]);
+          error.putString("nativeErrorCode", Integer.toString(adError.getCode()));
+          error.putString("nativeErrorMessage", adError.toString());
           sendRewardedEvent(AD_ERROR, requestId, adUnitId, error, null);
         }
       };
